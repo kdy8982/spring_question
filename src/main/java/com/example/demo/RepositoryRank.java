@@ -1,8 +1,6 @@
 package com.example.demo;
 
 import org.kohsuke.github.GHIssueState;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
 
 import java.io.IOException;
 
@@ -14,8 +12,8 @@ public class RepositoryRank {
     }
 
     public int getPoint(String repositoryName) throws IOException {
-        GitHub github = gitHubService.connect();
-        GHRepository repository = github.getRepository(repositoryName);
+        gitHubService.connect();
+        GitHubRepository repository = gitHubService.getRepository(repositoryName);
 
         int points = 0;
         if (repository.hasIssues() ) {
@@ -37,7 +35,9 @@ public class RepositoryRank {
     }
 
     public static void main(String[] args) throws IOException {
-        RepositoryRank spring = new RepositoryRank(new DefaultGitHubService());
+//        RepositoryRank spring = new RepositoryRank(new DefaultGitHubService());
+        AppConfig appConfig = new AppConfig();
+        RepositoryRank spring = appConfig.getRepositoryRank();
         int point = spring.getPoint("whiteship/live-study");
         System.out.println(point);
     }
