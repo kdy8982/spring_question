@@ -7,9 +7,14 @@ import org.kohsuke.github.GitHub;
 import java.io.IOException;
 
 public class RepositoryRank {
+    private final GitHubService gitHubService;
+
+    public RepositoryRank(GitHubService gitHubService) {
+        this.gitHubService = gitHubService;
+    }
 
     public int getPoint(String repositoryName) throws IOException {
-        GitHub github = GitHub.connect();
+        GitHub github = gitHubService.connect();
         GHRepository repository = github.getRepository(repositoryName);
 
         int points = 0;
@@ -32,7 +37,7 @@ public class RepositoryRank {
     }
 
     public static void main(String[] args) throws IOException {
-        RepositoryRank spring = new RepositoryRank();
+        RepositoryRank spring = new RepositoryRank(new DefaultGitHubService());
         int point = spring.getPoint("whiteship/live-study");
         System.out.println(point);
     }
